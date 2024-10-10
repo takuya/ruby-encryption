@@ -26,7 +26,7 @@ openssl enc -d -S $RAND -pbkdf2 -iter $i -base64  -in - -out -
 
 **manually** means, adding `SALTED__` by command , not by `openssl enc`, such as echo cat command, for example `(echo -n "Salted__"; echo -n "${rand}" | xxd -r -p; cat ${file_tmp} ) | base64 -w 64 > "${file_out}"`
 
-`iter` is to prevent brute force, iter count should be increased over than 1sec for attacker time consuming.
+`iter` is to prevent brute force attack. iter count should be increased over than 1sec to calculating , for attacker time consuming.
 
 ## 01 . shell command `openssl enc`, simple encryption.
 
