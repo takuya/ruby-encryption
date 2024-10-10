@@ -26,7 +26,7 @@ salt = [salt_str].pack('H*') # HEX dump
 iter_cnt = 1000 * 10
 open(file, 'w') { |f| f.puts "sample.\n"*20 }
 
-## encryption with salted__ , base64 . #05
+## encryption with salted__ , base64 . ### sample #05
 OpenSSLEncryption.encrypt_by_ruby(
   passphrase: pass, 
   file_in: file,
@@ -37,7 +37,12 @@ OpenSSLEncryption.encrypt_by_ruby(
   base64: true
 )
 ## decrypt by openssl command.
-`openssl enc -d -aes-256-cbc -pbkdf2 -iter #{iter_cnt} -base64 -in #{enc_file} -out #{out_file} - -k #{pass}`
+`openssl enc -d -aes-256-cbc 
+  -pbkdf2 -iter #{iter_cnt}
+  -base64 
+  -in #{enc_file}
+  -out #{out_file} 
+  -k #{pass}`
 ## results
 puts open(out_file).read
 ```
