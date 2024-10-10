@@ -1,4 +1,4 @@
-RSpec.describe 'decrypt/encrypt wrapping to openssl -enc -aes-256-cbc ' do
+RSpec.describe 'decrypt/encrypt wrapping by openssl command -enc -aes-256-cbc ' do
   file = 'my.txt'
   enc_file = 'my.enc'
   out_file = 'my.out'

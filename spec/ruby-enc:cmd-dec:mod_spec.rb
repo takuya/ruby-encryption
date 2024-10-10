@@ -1,9 +1,9 @@
-RSpec.describe 'decrypt/encrypt wrapping to ruby module -enc -aes-256-cbc ' do
+RSpec.describe 'decrypt/encrypt openssl to ruby module -enc -aes-256-cbc ' do
   file = 'my.txt'
   enc_file = 'my.enc'
   out_file = 'my.out'
   pass = 'your_password_here'
-  salt_str = '26CF3DE5072B9BFA'
+  salt_str = `openssl rand -hex 8`.strip
   salt = [salt_str].pack('H*')
   iter_cnt = 1000 * 10
 

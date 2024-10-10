@@ -1,10 +1,10 @@
-RSpec.describe 'decrypt/encrypt wrapping to ruby module -enc -aes-256-cbc ' do
+RSpec.describe 'decrypt/encrypt ruby module to openssl command -enc -aes-256-cbc ' do
   file = 'my.txt'
   enc_file = 'my.enc'
   out_file = 'my.out'
   pass = 'your_password_here'
-  salt_str = '26CF3DE5072B9BFA'
-  salt = [salt_str].pack('H*')
+  salt = SecureRandom.random_bytes(8)
+  salt_str = salt.unpack('H*').first
   iter_cnt = 1000 * 10
 
   ### no base 64

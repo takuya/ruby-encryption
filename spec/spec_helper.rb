@@ -3,6 +3,7 @@
 require 'pry'
 require 'tmpdir'
 require 'base64'
+require 'securerandom'
 require_relative '../lib/openssl/utils'
 
 def with_tmpdir
