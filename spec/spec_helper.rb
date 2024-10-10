@@ -2,8 +2,16 @@
 
 require 'pry'
 require 'tmpdir'
+require 'base64'
 require_relative '../lib/openssl/utils'
 
+def with_tmpdir
+  Dir.mktmpdir do |dir|
+    Dir.chdir(dir) do
+      yield dir
+    end
+  end
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

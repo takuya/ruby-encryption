@@ -1,10 +1,3 @@
-def with_tmpdir
-  Dir.mktmpdir do |dir|
-    Dir.chdir(dir) do
-      yield dir
-    end
-  end
-end
 
 RSpec.describe 'decrypt/encrypt by ruby equivalent to openssl -enc -aes-256-cbc ' do
 
