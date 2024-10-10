@@ -28,21 +28,22 @@ open(file, 'w') { |f| f.puts "sample.\n"*20 }
 
 ## encryption with salted__ , base64 . ### sample #05
 OpenSSLEncryption.encrypt_by_ruby(
-  passphrase: pass, 
+  passphrase: pass,
   file_in: file,
-  file_out: enc_file, 
-  iterations: iter_cnt, 
+  file_out: enc_file,
+  iterations: iter_cnt,
   salt: salt,
   salted: true,
   base64: true
 )
 ## decrypt by openssl command.
-`openssl enc -d -aes-256-cbc 
-  -pbkdf2 -iter #{iter_cnt}
-  -base64 
-  -in #{enc_file}
-  -out #{out_file} 
+`openssl enc -d -aes-256-cbc \
+  -pbkdf2 -iter #{iter_cnt} \
+  -base64 \
+  -in #{enc_file} \
+  -out #{out_file} \
   -k #{pass}`
+
 ## results
 puts open(out_file).read
 ```
