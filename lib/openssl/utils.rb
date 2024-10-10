@@ -54,6 +54,7 @@ module OpenSSLEncryption
       if salt_str.nil?
         `openssl enc -e -aes-256-cbc -pbkdf2 -iter #{iterations} -in #{file_in} -out #{file_out} -k #{passphrase} #{base64 ? '-base64' : ''}`
       else
+        raise 'arg. :salted_str should be HEX.' unless salt_str && salt_str =~ /[0-9A-Fa-f]+/
         if !salted
           `openssl enc -e -aes-256-cbc -pbkdf2 -iter #{iterations} -S #{salt_str} -in #{file_in} -out #{file_out} -k #{passphrase} #{base64 ? '-base64' : ''}`
         else
