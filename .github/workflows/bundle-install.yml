@@ -23,6 +23,7 @@ jobs:
         run: |
           [ -e work ] && rm -rf work
           mkdir work && cd work
+          pwd
           bundle init
           URL=https://github.com/takuya/ruby-encryption.git
           echo "gem 'takuya-ruby-encryption', git: '$URL'" >> Gemfile
@@ -31,6 +32,7 @@ jobs:
       - name: gemファイルとして 利用可能
         run: |
           pwd
+          cd work
           ## test file
           cat <<EOS > sample.rb
           ##
