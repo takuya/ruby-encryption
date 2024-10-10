@@ -1,0 +1,28 @@
+name: "rspec spec/"
+
+on:
+  push:
+    branch:
+      - master
+    paths:
+      - 'lib/**'
+      - '.github/workflows/actions.yml'
+  schedule:
+    - cron:  '0 11 */4 * *'
+
+jobs:
+  test-GMail-API-xoauth2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+          ruby-version: 3.1
+      - name : bundle install
+        run: |
+          bundle install
+      - name : rspecテスト
+        run:
+          bundle exec rspec spec/
+

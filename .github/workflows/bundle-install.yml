@@ -31,7 +31,6 @@ jobs:
           bundle exec ruby -e 'p require "openssl/utils"'
       - name: gemファイルとして 利用可能
         run: |
-          pwd
           cd work
           ## test file
           cat <<EOS > sample.rb
