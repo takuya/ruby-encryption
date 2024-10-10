@@ -1,5 +1,6 @@
 require 'openssl'
 require 'securerandom'
+require 'base64'
 
 module OpenSSLEncryption
   class << self
