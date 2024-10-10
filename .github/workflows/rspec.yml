@@ -6,12 +6,12 @@ on:
       - master
     paths:
       - 'lib/**'
-      - '.github/workflows/actions.yml'
+      - '.github/workflows/rspec.yml'
   schedule:
     - cron:  '0 11 */4 * *'
 
 jobs:
-  test-GMail-API-xoauth2:
+  rspec-exec:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
