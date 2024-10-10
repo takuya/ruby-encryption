@@ -64,7 +64,7 @@ openssl enc -d -S $RAND -pbkdf2 -iter $i -base64  -in - -out -
 |   03   |                none |    -base64 | BASE64 |     YES      |                 none |    -base64 |
 |   04   |            -S $RAND |    -base64 | BASE64 |      NO      |             -S $RAND |    -base64 |
 |   05   |            -S $RAND |    -base64 | BASE64 | **manually** |                 none |    -base64 |
-|   06   |            -S $RAND |       none | binary | **manually** |             -S $RAND |       none |
+|   06   |            -S $RAND |       none | binary | **manually** |                 none |       none |
 
 `$RAND` is random 8bytes. `RAND=$(openssl rand -hex 8  )`
 
