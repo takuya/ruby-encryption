@@ -29,7 +29,7 @@ jobs:
           bundle install
           bundle exec ruby -e 'p require "openssl/utils"'
           cat << EOS
-          cat <<EOS > sample.sh
+          cat <<EOS > sample.rb
           ##
           require 'openssl/utils'
           ## 
