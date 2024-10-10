@@ -8,7 +8,7 @@ module OpenSSLEncryption
 
     def encrypt_by_ruby(passphrase:, file_in:, file_out:, iterations:, salt: nil, salted: true,base64:false)
       raise ArgumentError.new("salted:true or salt:not null") if salt.nil? and !salted
-      raise ArgumentError.new("salt be 8 bytes") if salt && salt.size!=8
+      raise ArgumentError.new("salt must be 8 bytes binary, not HEX") if salt && salt.size!=8
       ##
       salt ||= SecureRandom.random_bytes(8)
       cipher = OpenSSL::Cipher.new("AES-256-CBC")
