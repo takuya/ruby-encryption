@@ -4,14 +4,21 @@ This repository has sample function encryption ( decrypt / ecrypt ) equivalent o
 
 ## Samples, openssl enc
 
-| sample | enc:-S opt | enc:base64 | output |   __Salted   | dec: -S opt | dec:base64 |
-|:------:|-----------:|-----------:|:------:|:------------:|------------:|-----------:|
-|   01   |       none |       none | binary |     YES      |        none |       none |
-|   02   |   -S $RAND |       none | binary |      NO      |    -S $RAND |       none |
-|   03   |       none |    -base64 | BASE64 |     YES      |        none |    -base64 |
-|   04   |   -S $RAND |    -base64 | BASE64 |      NO      |    -S $RAND |    -base64 |
-|   05   |   -S $RAND |    -base64 | BASE64 | **manually** |        none |    -base64 |
-|   06   |   -S $RAND |       none | binary | **manually** |    -S $RAND |       none |
+left side is encryption , right side is decryption.
+```shell
+## 
+openssl enc -e -S $RAND -pbkdf2 -iter $i -base64  -in - -out -  | \
+openssl enc -d -S $RAND -pbkdf2 -iter $i -base64  -in - -out - 
+```
+
+| sample | encrypt:<br/>-S opt | enc:base64 | output |   __Salted   | decrypt:<br/> -S opt | dec:base64 |
+|:------:|--------------------:|-----------:|:------:|:------------:|---------------------:|-----------:|
+|   01   |                none |       none | binary |     YES      |                 none |       none |
+|   02   |            -S $RAND |       none | binary |      NO      |             -S $RAND |       none |
+|   03   |                none |    -base64 | BASE64 |     YES      |                 none |    -base64 |
+|   04   |            -S $RAND |    -base64 | BASE64 |      NO      |             -S $RAND |    -base64 |
+|   05   |            -S $RAND |    -base64 | BASE64 | **manually** |                 none |    -base64 |
+|   06   |            -S $RAND |       none | binary | **manually** |             -S $RAND |       none |
 
 `$RAND` is random 8bytes. `RAND=$(openssl rand -hex 8  )`
 
@@ -19,6 +26,7 @@ This repository has sample function encryption ( decrypt / ecrypt ) equivalent o
 
 **manually** means, adding `SALTED__` by command , not by `openssl enc`, such as echo cat command, for example `(echo -n "Salted__"; echo -n "${rand}" | xxd -r -p; cat ${file_tmp} ) | base64 -w 64 > "${file_out}"`
 
+`iter` is to prevent brute force, iter count should be increased over than 1sec for attacker time consuming.
 
 ## 01 . shell command `openssl enc`, simple encryption.
 
