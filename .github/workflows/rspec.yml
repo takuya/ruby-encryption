@@ -19,6 +19,7 @@ jobs:
           ruby-version: 3.1
       - name : bundle install
         run: |
+          bundle add pry
           bundle install
       - name : rspecテスト
         run:
