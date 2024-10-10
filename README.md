@@ -1,6 +1,33 @@
+
+
 ## openssl enc equivalent in ruby
 
 This repository has sample function encryption ( decrypt / ecrypt ) equivalent of `openssl enc` command output.
+
+### how to use 
+
+installing by rubygems
+```shell
+URL=https://github.com/takuya/ruby-encryption.git
+echo "gem 'takuya-ruby-encryption', git: '$URL'" >> Gemfile
+bundle install 
+```
+encryption
+```ruby
+require_relative '../lib/openssl/utils' # this repository.
+
+file = 'my.txt'
+enc_file = 'my.enc'
+out_file = 'my.out'
+pass = 'your_password_here'
+salt_str = `openssl rand -hex 8`.strip
+salt = [salt_str].pack('H*') # HEX dump
+iter_cnt = 1000 * 10
+
+## encryption with salted__ , base64 . #05
+OpenSSLEncryption.encrypt_by_ruby(passphrase: pass, file_in: file, file_out: enc_file, iterations: iter_cnt, salt: salt, salted: false,base64: true)
+
+```
 
 ## Samples, openssl enc
 
