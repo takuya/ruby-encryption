@@ -1,0 +1,68 @@
+name: "rspec and bundle install"
+
+on:
+  push:
+    branch:
+      - master
+    paths:
+      - 'lib/**'
+      - '*.gemspec'
+      - '.github/workflows/bundle-install.yml'
+  schedule:
+    - cron:  '0 11 */2 * *'
+
+jobs:
+  run-bundle-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+          ruby-version: 3.1
+      - name: gemファイルとして インストール可能
+        run: |
+          [ -e work ] && rm -rf work
+          mkdir work && cd work
+          bundle init
+          URL=https://github.com/takuya/ruby-encryption.git
+          echo "gem 'takuya-ruby-encryption', git: '$URL'" >> Gemfile
+          bundle install
+          bundle exec ruby -e 'p require "openssl/utils"'
+          cat << EOS
+          cat <<EOS > sample.sh
+          ##
+          require 'openssl/utils'
+          ## 
+          file = 'my.txt'
+          enc_file = 'my.enc'
+          out_file = 'my.out'
+          pass = 'your_password_here'
+          salt_str = \`openssl rand -hex 8\`.strip
+          salt = [salt_str].pack('H*') # HEX dump
+          iter_cnt = 1000 * 1000
+          open(file, 'w') { |f| f.puts "sample.\n"*20 }
+          ## 
+          ## encryption with salted__ , base64 . ### sample #05
+          OpenSSLEncryption.encrypt_by_ruby(
+          passphrase: pass,
+          file_in: file,
+          file_out: enc_file,
+          iterations: iter_cnt,
+          salt: salt,
+          salted: true,
+          base64: true
+          )
+          ## decrypt by openssl command.
+          \`openssl enc -d -aes-256-cbc \\
+          -pbkdf2 -iter #{iter_cnt} \\
+          -base64 \\
+          -in #{enc_file} \\
+          -out #{out_file} \\
+          -k #{pass}\`
+          
+          ## results
+          puts open(out_file).read
+          ##
+          EOS
+          bundle exec ruby sample.rb
+          
