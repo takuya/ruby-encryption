@@ -14,7 +14,8 @@ bundle install
 ```
 encryption
 ```ruby
-require_relative '../lib/openssl/utils' # this repository.
+require 'openssl/utils'
+
 
 file = 'my.txt'
 enc_file = 'my.enc'
@@ -23,10 +24,22 @@ pass = 'your_password_here'
 salt_str = `openssl rand -hex 8`.strip
 salt = [salt_str].pack('H*') # HEX dump
 iter_cnt = 1000 * 10
+open(file, 'w') { |f| f.puts "sample.\n"*20 }
 
 ## encryption with salted__ , base64 . #05
-OpenSSLEncryption.encrypt_by_ruby(passphrase: pass, file_in: file, file_out: enc_file, iterations: iter_cnt, salt: salt, salted: false,base64: true)
-
+OpenSSLEncryption.encrypt_by_ruby(
+  passphrase: pass, 
+  file_in: file,
+  file_out: enc_file, 
+  iterations: iter_cnt, 
+  salt: salt,
+  salted: true,
+  base64: true
+)
+## decrypt by openssl command.
+`openssl enc -d -aes-256-cbc -pbkdf2 -iter #{iter_cnt} -base64 -in #{enc_file} -out #{out_file} - -k #{pass}`
+## results
+puts open(out_file).read
 ```
 
 ## Samples, openssl enc
