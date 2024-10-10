@@ -28,6 +28,9 @@ jobs:
           echo "gem 'takuya-ruby-encryption', git: '$URL'" >> Gemfile
           bundle install
           bundle exec ruby -e 'p require "openssl/utils"'
+      - name: gemファイルとして 利用可能
+        run: |
+          pwd
           ## test file
           cat <<EOS > sample.rb
           ##
