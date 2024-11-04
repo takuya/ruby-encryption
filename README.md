@@ -4,6 +4,20 @@
 
 This repository has sample function encryption ( decrypt / ecrypt ) equivalent of `openssl enc` command output.
 
+## functions.
+```ruby
+
+require 'openssl/utils'
+
+OpenSSLEncryption.encrypt_by_ruby    # pure ruby (openssl lib )
+OpenSSLEncryption.decrypt_by_ruby    # pure ruby (openssl lib )
+
+OpenSSLEncryption.encrypt_by_openssl # command wrapper 
+OpenSSLEncryption.decrypt_by_openssl # command wrapper 
+
+
+```
+
 ### how to use 
 
 installing by rubygems
@@ -73,6 +87,8 @@ openssl enc -d -S $RAND -pbkdf2 -iter $i -base64  -in - -out -
 **manually** means, adding `SALTED__` by command , not by `openssl enc`, such as echo cat command, for example `(echo -n "Salted__"; echo -n "${rand}" | xxd -r -p; cat ${file_tmp} ) | base64 -w 64 > "${file_out}"`
 
 `iter` is to prevent brute force attack. iter count should be increased over than 1sec to calculating , for attacker time consuming.(ex 1000*1000)
+
+
 
 ## 01 . shell command `openssl enc`, simple encryption.
 
