@@ -46,7 +46,8 @@ iter_cnt= 1000 * 1000
 
 OpenSSLEncryption.decrypt_by_ruby(
   passphrase: pass, 
-  file_enc: enc_file, file_out: out_file, iterations: iter_cnt
+  file_enc: enc_file, file_out: out_file, iterations: iter_cnt,
+  base64:true
 )
 ```
 
