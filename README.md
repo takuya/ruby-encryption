@@ -18,6 +18,38 @@ OpenSSLEncryption.decrypt_by_openssl # command wrapper
 
 ```
 
+Salted, base64 sample 
+
+encrypt by openssl ( SALTED, base64 , no specified RAND ) 
+```shell
+i=$(( 1000 * 1000 ))
+file_in=my.plain.txt
+file_out=my.enc.base64.salted.enc.bin
+passphrase="my_strong_password"
+
+## encryption 
+openssl enc -e -aes-256-cbc \
+  -pbkdf2 -iter "${i}" \
+  -in "${file_in}" -out "${file_out}" \
+  -k "${passphrase}"\
+  -base64 \
+  ;
+```
+decrypt above file by ruby 
+```ruby
+require 'openssl/utils'
+
+pass="my_strong_password"
+enc_file='my.enc.base64.salted.enc.bin'
+out_file='my.out.txt'
+iter_cnt= 1000 * 1000
+
+OpenSSLEncryption.decrypt_by_ruby(
+  passphrase: pass, 
+  file_enc: enc_file, file_out: out_file, iterations: iter_cnt
+)
+```
+
 ### how to use 
 
 installing by rubygems
@@ -71,14 +103,14 @@ openssl enc -e -S $RAND -pbkdf2 -iter $i -base64  -in - -out -  | \
 openssl enc -d -S $RAND -pbkdf2 -iter $i -base64  -in - -out - 
 ```
 
-| sample | encrypt:<br/>-S opt | enc:base64 | output |   __Salted   | decrypt:<br/> -S opt | dec:base64 |
-|:------:|--------------------:|-----------:|:------:|:------------:|---------------------:|-----------:|
-|   01   |                none |       none | binary |     YES      |                 none |       none |
-|   02   |            -S $RAND |       none | binary |      NO      |             -S $RAND |       none |
-|   03   |                none |    -base64 | BASE64 |     YES      |                 none |    -base64 |
-|   04   |            -S $RAND |    -base64 | BASE64 |      NO      |             -S $RAND |    -base64 |
-|   05   |            -S $RAND |    -base64 | BASE64 | **manually** |                 none |    -base64 |
-|   06   |            -S $RAND |       none | binary | **manually** |                 none |       none |
+| sample | encrypt:<br/>-S opt | enc:base64 | output |    __Salted<br>string     | decrypt:<br/> -S opt | dec:base64 |
+|:------:|--------------------:|-----------:|:------:|:-------------------------:|---------------------:|-----------:|
+|   01   |                none |       none | binary |            YES            |                 none |       none |
+|   02   |            -S $RAND |       none | binary |            NO             |             -S $RAND |       none |
+|   03   |                none |    -base64 | BASE64 |            YES            |                 none |    -base64 |
+|   04   |            -S $RAND |    -base64 | BASE64 |            NO             |             -S $RAND |    -base64 |
+|   05   |            -S $RAND |    -base64 | BASE64 | YES<br>**(manually add)** |                 none |    -base64 |
+|   06   |            -S $RAND |       none | binary | YES<br>**(manually add)** |                 none |       none |
 
 `$RAND` is random 8bytes. `RAND=$(openssl rand -hex 8  )`
 
